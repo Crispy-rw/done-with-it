@@ -9,13 +9,14 @@ const initialMessages = [
   {
     id: 1,
     title: "T1",
-    description: "D1",
+    description: "Lore",
     image: require("../assets/mosh.jpeg"),
   },
   {
     id: 2,
     title: "E1",
-    description: "F1",
+    description:
+      "lknaslnsndnaskjcnkjsndvjknasdvasdv;oasndvasndvsdv sjvsjhdvjhvasdghvacdghvashdcvghvchwevdjkhwfhjawjhkasdbhcvsjhkfvweghfvtweyfvuasvghksvcuvwecasdjhkvjkasygfjhwefvusvdcjhvducbwevhfvwjhcvweyhcbwehjgcvwejhfv8wefb3hgvfy832ufuhsdvcyuhvfy7o32vfuh23v8yuvcuefr3yuv687fcvuhwefvy8vru2v8cvyivfy8234g",
     image: require("../assets/mosh.jpeg"),
   },
 ];
