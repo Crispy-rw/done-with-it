@@ -1,8 +1,8 @@
 import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import { View, StyleSheet, Image } from "react-native";
 
 import colors from "../config/colors";
-import AppText from "./AppText";
+import AppText from "./Text";
 
 function Card({ image, title, subTitle }) {
   return (
