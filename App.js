@@ -1,66 +1,35 @@
-import React from "react";
-import { Button, Text } from "react-native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, { useState } from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { AppLoading } from "expo";
 
-import Screen from "./app/components/Screen";
-import AuthNavigator from "./app/navigations/AuthNavigator";
 import navigationTheme from "./app/navigations/navigationTheme";
 import AppNavigator from "./app/navigations/AppNavigator";
-
-const Link = () => {
-  const navigation = useNavigation();
-  return (
-    <Screen>
-      <Button
-        title="Click"
-        onPress={() => navigation.navigate("TweetDetails")}
-      ></Button>
-    </Screen>
-  );
-};
-
-const Tweets = ({ navigation }) => (
-  <Screen>
-    <Text>Tweets</Text>
-  </Screen>
-);
-
-const TweetDetails = () => (
-  <Screen>
-    <Text>Tweet Details</Text>
-  </Screen>
-);
-
-const Stack = createStackNavigator();
-
-const StackNavigator = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Tweets" component={Tweets} />
-    <Stack.Screen name="TweetDetails" component={TweetDetails} />
-  </Stack.Navigator>
-);
-
-const Account = () => (
-  <Screen>
-    <Text>Account</Text>
-  </Screen>
-);
-
-const Tab = createBottomTabNavigator();
-
-const TabNavigator = () => (
-  <Tab.Navigator>
-    <Tab.Screen name="Feed" component={Tweets} options={{}} />
-    <Tab.Screen name="Account" component={Account} />
-  </Tab.Navigator>
-);
+import OfflineNotice from "./app/components/OfflineNotice";
+import AuthNavigator from "./app/navigations/AuthNavigator";
+import AuthContext from "./app/auth/context";
+import authStorage from "./app/auth/storage";
 
 export default function App() {
+  const [user, setUser] = useState();
+  const [isReady, setIsReady] = useState(false);
+
+  const restoreUser = async () => {
+    const user = await authStorage.getUser();
+    if (user) setUser(user);
+  };
+
+  if (!isReady) {
+    return (
+      <AppLoading startAsync={restoreUser} onFinish={() => setIsReady(true)} />
+    );
+  }
+
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setUser }}>
+      {/* <OfflineNotice /> */}
+      <NavigationContainer theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
